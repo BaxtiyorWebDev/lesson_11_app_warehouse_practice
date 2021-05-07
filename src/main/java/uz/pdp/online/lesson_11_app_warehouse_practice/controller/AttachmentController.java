@@ -34,11 +34,6 @@ public class AttachmentController {
         return attachment;
     }
 
-    @PutMapping("/{id}")
-    public Result editAttachment(@PathVariable Integer id, MultipartHttpServletRequest request) {
-        Result result = attachmentService.editAttachment(id, request);
-        return result;
-    }
 
 //    @DeleteMapping("/{id}")
 //    public Result deleteAttachment(@PathVariable Integer id) {

@@ -55,25 +55,6 @@ public class AttachmentService {
         return optionalAttachment.get();
     }
 
-    @SneakyThrows
-    public Result editAttachment(Integer id, MultipartHttpServletRequest request) {
-        Optional<Attachment> optionalAttachment = attachmentRepository.findById(id);
-        if (!optionalAttachment.isPresent())
-            return new Result("Bunday ma'lumot topilmadi", false);
-        Attachment editingAttachment = optionalAttachment.get();
-        Iterator<String> fileNames = request.getFileNames();
-        MultipartFile file = request.getFile(fileNames.next());
-        editingAttachment.setName(file.getOriginalFilename());
-        editingAttachment.setSize(file.getSize());
-        editingAttachment.setContentType(file.getContentType());
-        Attachment savedAttachment = attachmentRepository.save(editingAttachment);
-
-        AttachmentContent byAttachmentId = attachmentContentRepo.findByAttachmentId(id);
-        byAttachmentId.setBytes(file.getBytes());
-        byAttachmentId.setAttachment(savedAttachment);
-        attachmentContentRepo.save(byAttachmentId);
-        return new Result("Fayl tahrirlandi", true, savedAttachment.getId());
-    }
 
     public Result deleteAttachment(Integer id) {
         Optional<Attachment> optionalAttachment = attachmentRepository.findById(id);
